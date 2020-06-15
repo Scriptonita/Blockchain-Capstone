@@ -11,6 +11,8 @@ contract Ownable {
     //  1) create a private '_owner' variable of type address with a public getter function
     address private _owner;
 
+    event OwnershipTransfered(address newOwner);
+
     //  2) create an internal constructor that sets the _owner var to the creater of the contract
     constructor() public {
         _owner = msg.sender;
@@ -25,13 +27,12 @@ contract Ownable {
 
     //  4) fill out the transferOwnership function
     //  5) create an event that emits anytime ownerShip is transfered (including in the constructor)
-    event OwnershipTransfered(address newOwner);
 
     function transferOwnership(address newOwner) public onlyOwner {
         // TODO add functionality to transfer control of the contract to a newOwner.
         // make sure the new owner is a real address
         _owner = newOwner;
-        emit ownershipTransfered(_owner);
+        emit OwnershipTransfered(_owner);
     }
 }
 
@@ -58,6 +59,7 @@ contract Pausable is Ownable {
 
     modifier paused() {
         require(_paused == true, "Contract is not paused");
+        _;
     }
     //  5) create a Paused & Unpaused event that emits the address that triggered the event
     event Paused(address owner);
@@ -503,8 +505,12 @@ contract ERC721Enumerable is ERC165, ERC721 {
 
 contract ERC721Metadata is ERC721Enumerable, usingOraclize {
     // TODO: Create private vars for token _name, _symbol, and _baseTokenURI (string)
+    string private _name;
+    string private _symbol;
+    string private _baseTokenURI;
 
     // TODO: create private mapping of tokenId's to token uri's called '_tokenURIs'
+    mapping(uint256 => string) private _tokenURIs;
 
     bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;
 
