@@ -19,6 +19,10 @@ contract Ownable {
         emit OwnershipTransfered(_owner);
     }
 
+    function getOwner() public returns (address) {
+        return _owner;
+    }
+
     //  3) create an 'onlyOwner' modifier that throws if called by any account other than the owner.
     modifier onlyOwner() {
         require(_owner == msg.sender, "Caller in not contract owner");
@@ -562,6 +566,9 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
         string memory baseTokenURI
     ) public {
         // TODO: set instance var values
+        _name = name;
+        _symbol = symbol;
+        _baseTokenURI = baseTokenURI;
 
         _registerInterface(_INTERFACE_ID_ERC721_METADATA);
     }
