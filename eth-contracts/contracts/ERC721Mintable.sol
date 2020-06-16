@@ -567,9 +567,20 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
     }
 
     // TODO: create external getter functions for name, symbol, and baseTokenURI
+    function name() external view returns (string memory) {
+        return _name;
+    }
+
+    function symbol() external view returns (string memory) {
+        return _symbol;
+    }
+
+    function baseTokenURI() external view returns (string memory) {
+        return _baseTokenURI;
+    }
 
     function tokenURI(uint256 tokenId) external view returns (string memory) {
-        require(_exists(tokenId));
+        require(_exists(tokenId), "Token does not exists");
         return _tokenURIs[tokenId];
     }
 
@@ -579,6 +590,10 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
     // TIP #2: you can also use uint2str() to convert a uint to a string
     // see https://github.com/oraclize/ethereum-api/blob/master/oraclizeAPI_0.5.sol for strConcat()
     // require the token exists before setting
+    function setTokenURI(uint256 tokenId) internal {
+        require(_exists(tokenId), "Token does not exists");
+        _tokenURIs[tokenId] = strConcat(_baseTokenURI, uint2str(tokenId));
+    }
 }
 
 //  TODO's: Create CustomERC721Token contract that inherits from the ERC721Metadata contract. You can name this contract as you please
