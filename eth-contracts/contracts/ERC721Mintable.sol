@@ -392,7 +392,7 @@ contract ERC721Enumerable is ERC165, ERC721 {
         view
         returns (uint256)
     {
-        require(index < balanceOf(owner));
+        require(index < balanceOf(owner), "Error in tokenOfOwnerByindex");
         return _ownedTokens[owner][index];
     }
 
@@ -411,7 +411,7 @@ contract ERC721Enumerable is ERC165, ERC721 {
      * @return uint256 token ID at the given index of the tokens list
      */
     function tokenByIndex(uint256 index) public view returns (uint256) {
-        require(index < totalSupply());
+        require(index < totalSupply(), "Error in tokenByIndex");
         return _allTokens[index];
     }
 
